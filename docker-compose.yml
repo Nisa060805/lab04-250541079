@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  vtys-postgres:
+    image: postgres:15-alpine
+    container_name: vtys-postgres
+    environment:
+      POSTGRES_DB: vtysdb
+      POSTGRES_USER: vtys
+      POSTGRES_PASSWORD: vtyspassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  vtys-pgadmin:
+    image: dpage/pgadmin4
+    container_name: vtys-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@vtys.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - vtys-postgres
+
+volumes:
+  pgdata:
